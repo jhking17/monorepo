@@ -1,0 +1,11 @@
+{
+    "ID_MIN_LENGTH" : 3,
+    "PW_MIN_LENGTH" : 3,
+    "NAVIGATION_FOR_GUEST" : [],
+    "ADMIN_LEVEL" : {
+        "1" : "Owner",
+        "2" : "Admin",
+        "3" : "User",
+        "4" : "Guest"
+    }
+}
