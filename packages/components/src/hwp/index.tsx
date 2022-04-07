@@ -9,7 +9,6 @@
  ******************************************************************************/
 // Library
 import React, { useState, useEffect, ChangeEvent, useRef } from "react"; // default hooks
-import { useHistory } from "react-router-dom";
 import { Viewer } from "hwp.js";
 import { useAsyncEffect } from "hooks";
 //

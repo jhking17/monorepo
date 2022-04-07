@@ -2,7 +2,7 @@
 > Monorepo Template
 
 ## default setting
-0. nodejs lts version install ( 14.17v )
+0. nodejs lts version install : using node v16.13.2 (npm v8.1.2)
 1. npm i -g typescript@3.9.7
 2. npm i -g lerna@3.22.1
 3. npm i -g concurrently
@@ -57,9 +57,9 @@
     lerna create pop-fe
     ```
 2. module add
-    - lerna add <module_name>
+    - yarn add <module_name>
     ```
-    lerna add react
+    yarn add react
     2-1. app <- module add
     ```
     - lerna add <module> --scope=<packages_name>

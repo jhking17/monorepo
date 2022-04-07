@@ -11,7 +11,7 @@
 import { useSelector, useDispatch } from "react-redux"; // redux
 import React, { useState, useEffect } from "react"; // default hooks
 import styled from "styled-components";
-import { InputLabel, MenuItem, Select, SelectProps } from "@material-ui/core";
+import { InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
 //
 // Module
 import { useLocations } from "hooks" // locations hooks
