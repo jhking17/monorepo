@@ -4,19 +4,9 @@ import { createStore , applyMiddleware, Store, Action, combineReducers } from 'r
 // import storage from "redux-persist/lib/storage";
 // import { ActionType } from "./action";
 import { user } from "./reducer/user";
-import { project } from "./reducer/project";
-import { employee } from "./reducer/employee";
-import { multitab } from "./reducer/multitab";
-import { clientsetting } from "./reducer/clientsetting";
-import { work } from "./reducer/work";
 
 const reducer = combineReducers({
     // reducer add
-    work,
-    clientsetting,
-    multitab,
-    employee,
-    project,
     user,
 });
 

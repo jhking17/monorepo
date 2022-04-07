@@ -15,7 +15,7 @@ async function async_dispatch(dispatch : any, type : any, func : any, ...args : 
     }
 }
 
-export default function actions(msg : any, func : any){
+export function actions(msg : any, func : any){
     return function(...args: any){
         return async function (dispatch : any){
             await async_dispatch(dispatch, msg, func, ...args);

@@ -41,6 +41,11 @@
     ```
     - only fure js function
     ```
+- @<app name>
+    ```
+    - 각 모듈들을 적용할 앱은 레포 이름앞에 @를 붙입니다.
+    - ex ) @test-app
+    ```
 ## Rules
 0. initalized
     ```
