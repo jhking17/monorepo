@@ -3,12 +3,10 @@
  * Data modelings and methods used are assets of  Inc.                 *
  * loading_indicator/index.tsx
  * hooks :
-    * useLocations 
     *
  * last modify : jh.jeong
  ******************************************************************************/
  
-import { useSelector, useDispatch } from "react-redux"; // redux
 import React, { useState, useEffect } from "react"; // default hooks
 import Backdrop, { BackdropProps } from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';

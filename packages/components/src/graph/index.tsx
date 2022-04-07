@@ -3,14 +3,12 @@
  * Data modelings and methods used are assets of  Inc.                 *
  * graph/index.tsx
  * hooks :
- * useLocations
  *
  * last modify :
  ******************************************************************************/
 
 import { useSelector, useDispatch } from "react-redux"; // redux
 import React, { useState, useEffect } from "react"; // default hooks
-import { useLocations } from "hooks"; // locations hooks
 import styled from "styled-components";
 import { Line, Bar, Doughnut, Pie, Radar } from "react-chartjs-2";
 
@@ -31,9 +29,6 @@ type styledProps = {
 export const GraphComponent: React.FunctionComponent<FinalgraphProps> = (
     props: FinalgraphProps
 ) => {
-    const { back, existBack, path } = useLocations();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
     const getChartComp = () => {
         let _data = props.data;
         switch (props.type) {

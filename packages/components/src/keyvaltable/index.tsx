@@ -3,7 +3,6 @@
  * Data modelings and methods used are assets of  Inc.                 *
  * keyvaltable/index.tsx
  * hooks :
-    * useLocations 
     *
  * last modify : 
  ******************************************************************************/
@@ -13,7 +12,6 @@ import React, { useState, useEffect } from "react"; // default hooks
 import styled from "styled-components";
 //
 // Module
-import { useLocations } from "hooks" // locations hooks
 //
 
 export type keyvaltableProps = {
@@ -25,7 +23,6 @@ export type keyvaltableProps = {
 interface FinalkeyvaltableProps extends keyvaltableProps {};
 
 export const KeyvaltableComponent : React.FunctionComponent<FinalkeyvaltableProps> = ( props )=>{
-    const { back, existBack, path } = useLocations();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [dataKeys, setDataKeys] = useState<string[]>([]);
     const [dataValues, setDataValues] = useState<any[]>([]);
