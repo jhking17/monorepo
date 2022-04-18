@@ -3,17 +3,11 @@
 
 ## default setting
 0. nodejs lts version install : using node v16.13.2 (npm v8.1.2)
-1. npm i -g typescript@3.9.7
-2. npm i -g lerna@3.22.1
-3. npm i -g concurrently
-4. npm i -g cross-env
-5. Command Run
+1. Command Run
     ```
     node setup.js
     ```
-6. npm run bootstrap
-7. npm run watch
-8. Go package app dir, npm start. ex ) cd test-app & npm start
+2. Go package app dir, npm start. ex ) cd test-app & npm start
 
 ## 각 package 명세
 - common-module ( common_module )

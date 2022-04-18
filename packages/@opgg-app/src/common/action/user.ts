@@ -1,5 +1,5 @@
-import { FetchApiPost, FetchApiGet } from "../lib/network";
-import { actions } from "./creator";
+import { FetchApiPost, FetchApiGet, FetchApiDelete } from "../network";
+import { actions } from "common_module/lib/action/creator";
 
 export const HANDSHAKE = "HANDSHAKE";
 export const Handshake = actions(HANDSHAKE, async () => {
