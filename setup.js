@@ -1,28 +1,24 @@
 const { execSync } = require ("child_process");
 
 ;(function(){
-    console.log("========================================== WATCH AND INSTALL START ================================================");
+    console.log("========================================== BUILD AND INSTALL START ================================================");
     const commandList = [
-        "echo ========================================== WATCH AND INSTALL START ================================================",
-        "npm run bootstrap",
-        "tsc -p ./packages/fuse/",
-        "tsc -p ./packages/fuse_app/",
-        "tsc -p ./packages/hooks/", 
-        "tsc -p ./packages/utils-js/",
-        "tsc -p ./packages/components/",
-        "npm run bootstrap",
-        "tsc -p ./packages/utils-ts/",
-        "tsc -p ./packages/common-module/"
+        "sudo npm i -g lerna@3.22.1",
+        "lerna bootstrap",
+        "./node_modules/typescript/bin/tsc -p ./packages/common-module/",
+        "./node_modules/typescript/bin/tsc -p ./packages/hooks/", 
+        "./node_modules/typescript/bin/tsc -p ./packages/components/",
     ];
     for(var command of commandList){
         try {
             let res = execSync(command);
             console.log(res.toString())
         } catch(err){
-            console.log(`========================================== ${command} failed ================================================`);
+            console.log(`!! ${command} failed !!`);
             continue;
         }
 
-        console.log(`========================================== ${command} completed ================================================`);
+        console.log(`** ${command} completed **`);
     }
+    console.log("========================================== BUILD AND INSTALL END ================================================");
 }());

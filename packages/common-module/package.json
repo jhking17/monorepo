@@ -1,7 +1,7 @@
 {
   "name": "common_module",
   "version": "1.0.2",
-  "description": "redux-module",
+  "description": "redux-module etc",
   "author": "정주호 <jooho2479@gmail.com>",
   "homepage": "",
   "license": "ISC",
@@ -46,8 +46,7 @@
     "tailwindcss-dir": "^4.0.0",
     "tsc-watch": "^4.2.9",
     "tslib": "1.10.0",
-    "typescript": "^3.9.7",
-    "utils_ts": "^1.0.2"
+    "typescript": "^3.9.7"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 < 17",
