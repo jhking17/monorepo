@@ -7,7 +7,6 @@ const { execSync } = require ("child_process");
         "lerna bootstrap",
         "./node_modules/typescript/bin/tsc -p ./packages/common-module/",
         "./node_modules/typescript/bin/tsc -p ./packages/hooks/", 
-        "./node_modules/typescript/bin/tsc -p ./packages/utils-js/",
         "./node_modules/typescript/bin/tsc -p ./packages/components/",
     ];
     for(var command of commandList){
