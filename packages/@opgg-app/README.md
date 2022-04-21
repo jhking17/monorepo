@@ -1,6 +1,6 @@
-## Test Service
+## OPGG App
 
->Run Rules
-- node setup.js
-- cd @test-app
-- npm start
+> Run Rules
+1. node setup.js
+2. cd @opgg-app
+3. npm start
