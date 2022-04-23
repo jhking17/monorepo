@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Button } from "@mui/material";
 
 type StyledProps = {
     $active?: boolean;
@@ -36,8 +35,16 @@ export const searchInput = styled.input`
     }
 `;
 
+export const searchContainer = styled.div`
+    width : 340px;
+    height : auto;
+    position : absolute;
+    top : 36px;
+`;
+
 export const searchBtn = styled.div`
     ${props => props.theme.flex.center};
+    justify-content : flex-end;
     ${props => props.theme.settings.noneSelect};
     width: 20%;
     font-weight : bold;
