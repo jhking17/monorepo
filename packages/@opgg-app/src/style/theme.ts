@@ -2,6 +2,7 @@ import { DefaultTheme } from "styled-components";
 
 const colors = {
     azure: "#1ea1f7",
+    gray: "#EAEAEA",
 };
 
 const flex = {

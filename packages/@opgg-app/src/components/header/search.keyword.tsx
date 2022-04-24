@@ -4,6 +4,10 @@
  * last modify : jh.jeong
  ******************************************************************************/
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { reducerState } from "../../common";
+import { SearchUser } from "../../common/action";
+import { SummonerInfo } from "../../common/reducer";
 import * as S from "./search.keyword.styled";
 
 interface SearchKeywordCompProps {
@@ -11,17 +15,39 @@ interface SearchKeywordCompProps {
 }
 
 export const SearchKeywordComp: React.FunctionComponent<SearchKeywordCompProps> = props => {
+    const dispatch = useDispatch();
+    const searchSelector = useSelector((state: reducerState) => state.search);
+    const onClickUser = async (name: string) => {
+        await dispatch(SearchUser(name, true));
+    };
+
+    const searchKeywordData = searchSelector.searchKeyword;
     return (
         <S.historyBox $active={props.active}>
-            <S.searchUserBlock>
-                <S.searchUserIcon>
-                    <img src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon6.jpg?image=q_auto&image=q_auto,f_webp,w_72&v=1650634188774" />
-                </S.searchUserIcon>
-                <S.searchUserTextBlock>
-                    <S.searchUserName>Hide on bush</S.searchUserName>
-                    <S.searchUserLevel>Challenger 1 - 716LP</S.searchUserLevel>
-                </S.searchUserTextBlock>
-            </S.searchUserBlock>
+            {searchKeywordData && searchKeywordData.length > 0 ? (
+                searchKeywordData.map((raw: SummonerInfo, idx: number) => {
+                    return (
+                        <S.searchUserBlock
+                            key={"search-keyword" + idx}
+                            onClick={onClickUser.bind(this, raw.name)}
+                        >
+                            <S.searchUserIcon>
+                                <img src={raw.profileImageUrl} />
+                            </S.searchUserIcon>
+                            <S.searchUserTextBlock>
+                                <S.searchUserName>{raw.name}</S.searchUserName>
+                                <S.searchUserLevel>
+                                    {raw.leagues &&
+                                        raw.leagues.length > 0 &&
+                                        raw.leagues[0].tierRank["string"]}
+                                </S.searchUserLevel>
+                            </S.searchUserTextBlock>
+                        </S.searchUserBlock>
+                    );
+                })
+            ) : (
+                <></>
+            )}
         </S.historyBox>
     );
 };

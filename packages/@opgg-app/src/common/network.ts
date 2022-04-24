@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const domain = process.env.NODE_ENV === "development" ? "http://127.0.0.1:3002" : "";
+export const domain = process.env.NODE_ENV === "development" ? "https://codingtest.op.gg" : "";
 
 /**
  * 빈 값 여부를 확인한다.
@@ -29,17 +29,15 @@ export const FetchApiGet = async (url: any, params?: any, withoutErr: boolean = 
             },
             params: {
                 ...params,
-                access_token: window.localStorage.getItem("access_token"),
-                refresh_token: window.localStorage.getItem("refresh_token"),
             },
-            withCredentials: true,
+            // withCredentials: true,
         });
         // console.log("RESPONSE", response.data);
 
         // console.log(response.resultCode);
 
-        if (response.data.resultCode != 200) {
-            throw response.data.errorMsg;
+        if (response.status != 200) {
+            throw "something error" + response.data;
         }
 
         return response.data;
@@ -66,8 +64,7 @@ export const FetchApiPost = async (url: any, params?: any) => {
     try {
         const access_token = window.localStorage.getItem("access_token");
         const refresh_token = window.localStorage.getItem("refresh_token");
-        if (access_token == null && url.indexOf("login") == -1 && url.indexOf("signup") == -1)
-            throw new Error("");
+        if (access_token == null && url.indexOf("login") == -1 && url.indexOf("signup") == -1) throw new Error("");
         if (params == undefined) params = {};
         Object.assign(params, { access_token });
         Object.assign(params, { refresh_token });
@@ -79,11 +76,11 @@ export const FetchApiPost = async (url: any, params?: any) => {
             headers: {
                 "Access-Control-Allow-Origin": "*",
             },
-            withCredentials: true,
+            // withCredentials: true,
         });
 
-        if (response.data.resultCode != 200) {
-            throw response.data.errorMsg;
+        if (response.status != 200) {
+            throw "something error" + response.data;
         }
 
         return response.data;
@@ -138,8 +135,8 @@ export const FetchApiPostWithFiles = async (url: any, files?: any, params?: any)
             withCredentials: true,
         });
 
-        if (response.data.resultCode != 200) {
-            throw response.data.errorMsg;
+        if (response.status != 200) {
+            throw "something error" + response.data;
         }
 
         return response.data;
@@ -178,8 +175,8 @@ export const FetchApiPut = async (url: any, params?: any) => {
             },
         });
 
-        if (response.data.resultCode != 200) {
-            throw response.data.errorMsg;
+        if (response.status != 200) {
+            throw "something error" + response.data;
         }
         return response.data;
     } catch (error) {
@@ -214,8 +211,8 @@ export const FetchApiDelete = async (url: any, params?: any) => {
             withCredentials: true,
         });
 
-        if (response.data.resultCode != 200) {
-            throw response.data.errorMsg;
+        if (response.status != 200) {
+            throw "something error" + response.data;
         }
         return response.data;
     } catch (error) {

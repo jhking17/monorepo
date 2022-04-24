@@ -3,10 +3,12 @@ import thunkMiddleware from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 
-import { user } from "./reducer";
+import { user, search, favorite } from "./reducer";
 
 const rootReducer = combineReducers({
     user,
+    search,
+    favorite,
 });
 
 export type reducerState = ReturnType<typeof rootReducer>;
@@ -14,7 +16,7 @@ export type reducerState = ReturnType<typeof rootReducer>;
 const persistConfig = {
     key: "TEST_SERVICE_PERSIST_KEY",
     storage,
-    whitelist: ["user"],
+    whitelist: ["search", "favorite"],
 };
 
 function configureStore() {

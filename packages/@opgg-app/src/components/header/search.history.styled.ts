@@ -81,12 +81,12 @@ export const historyItem = styled.div`
     padding: 8px 0;
     height: auto;
     gap: 4px;
-    cursor: pointer;
 `;
 
 export const historyItemText = styled.div`
     flex: 1;
     text-align: left;
+    cursor: pointer;
 `;
 
 export const historyItemBtn = styled.div`
@@ -98,4 +98,5 @@ export const historyItemBtn = styled.div`
                 ? "url(https://s-lol-web.op.gg/images/icon/icon-favorite-on.png)"
                 : "url(https://s-lol-web.op.gg/images/icon/icon-favorite-off.png)"
             : "url(https://s-lol-web.op.gg/images/site/icon-history-delete.png?v=1650634188774)"};
+    cursor: pointer;
 `;
