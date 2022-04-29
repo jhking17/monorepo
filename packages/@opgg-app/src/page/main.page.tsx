@@ -1,5 +1,5 @@
 import React from "react";
-import { HeaderComp, UserInfoComp, RankInfoComp, MostInfoComp } from "../components";
+import { HeaderComp, UserInfoComp, RankInfoComp, MostInfoComp, MatchStasticsComp } from "../components";
 import * as S from "../style/main.styled";
 import D from "../style/default.styled";
 
@@ -12,15 +12,18 @@ const TestPage: React.FunctionComponent<MainPageProps> = (props: MainPageProps) 
             <S.contentContainer>
                 <UserInfoComp />
                 <S.line />
-                <D.innerContainer style={{ display: "flex", flexDirection: "row" }}>
-                    <S.leftBox>
-                        <RankInfoComp />
-                        <MostInfoComp />
-                    </S.leftBox>
-                    <S.rightBox>
-                        <div>전체 솔로게임 자유랭크.....</div>
-                    </S.rightBox>
-                </D.innerContainer>
+                <D.contentContainer>
+                    <D.innerContainer style={{display : "flex", gap : "10px"}}>
+                        <S.leftBox>
+                            <RankInfoComp />
+                            <MostInfoComp />
+                        </S.leftBox>
+                        <S.rightBox>
+                            <MatchStasticsComp />
+                            <div>전체 솔로게임 자유랭크.....</div>
+                        </S.rightBox>
+                    </D.innerContainer>
+                </D.contentContainer>
             </S.contentContainer>
         </>
     );

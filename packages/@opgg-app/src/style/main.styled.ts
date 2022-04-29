@@ -19,7 +19,6 @@ export const contentBox = styled.div`
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-
     gap: 10px;
 `;
 
@@ -30,6 +29,8 @@ export const leftBox = styled.div`
     align-items : flex-start;
     flex: 4;
     max-width : 360px;
+    min-width : 300px;
+    min-height : 870px;
 `;
 
 export const rightBox = styled.div`

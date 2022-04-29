@@ -14,7 +14,7 @@ export const rankInfoContainer = styled.div`
 `;
 
 export const rankBox = styled.div`
-    width: 90%;
+    width: 100%;
     ${props => props.theme.flex.center};
     justify-content : flex-start;
     flex-direction: row;

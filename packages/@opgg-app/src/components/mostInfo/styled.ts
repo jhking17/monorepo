@@ -11,10 +11,10 @@ type StyledProps = {
 
 export const mostInfoContainer = styled.div`
     ${props => props.theme.flex.center};
-    width: 90%;
+    width: 100%;
     height: auto;
     background-color: ${props => props.theme.colors.gray};
-    margin: 20px 5% 10px 5%;
+    margin: 20px 0 10px 0;
     flex-direction: column;
     gap: 100px;
 `;

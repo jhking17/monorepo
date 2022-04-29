@@ -12,6 +12,14 @@ const innerContainer = styled.div`
     height: ${(props: StyledProps) => (props.$section == "header" ? "100%" : "auto")};
 `;
 
+const contentContainer = styled.div`
+    position: relative;
+    ${props => props.theme.flex.center};
+    flex-direction : row;
+    width: 100%;    
+`;
+
 export default {
     innerContainer,
+    contentContainer
 };
