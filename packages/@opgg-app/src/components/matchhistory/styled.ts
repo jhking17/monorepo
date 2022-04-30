@@ -216,13 +216,42 @@ export const matchInfoItemList = styled.div`
 
 export const matchInfoItemImg = styled.div`
     ${props => props.theme.flex.center};
-    width: 20%;
-    height: 40%;
+    width: 23%;
+    height: 50%;
     background-color: ${(props: StyledProps) =>
         props.$result == "win" ? "#7aa5c3" : props.$result == "lose" ? "#cb9e9a" : "#979797"};
     img {
         border-radius: 2px;
         width: 100%;
+        height: 100%;
+    }
+    position: relative;
+    #tooltipText {
+        position: absolute;
+        visibility: hidden;
+        text-align: left;
+        width: 150px;
+        padding: 5px 4px;
+        z-index: 1;
+        background-color: #222727;
+        color: #fff;
+        font-size: 11px;
+        margin-bottom : 80px;
+    }
+    #tooltipText::after {
+        content: " ";
+        position: absolute;
+        top: 100%; /* At the bottom of the tooltip */
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #222727 transparent transparent transparent;
+    }
+    &:hover {
+        #tooltipText {
+            visibility: visible;
+        }
     }
 `;
 
@@ -294,3 +323,4 @@ export const matchInfoDetailArrowBlock = styled.div`
 
     cursor: pointer;
 `;
+//

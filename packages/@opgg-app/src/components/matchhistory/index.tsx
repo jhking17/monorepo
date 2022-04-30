@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { reducerState } from "../../common";
 import { SearchUser } from "../../common/action";
-import { Match, Champion, MatchSummary, MatchDetail, MatchStats } from "../../common/reducer";
+import { Match, MatchDetail, itemData } from "../../common/reducer";
 import * as S from "./styled";
 
 interface MatchHistoryCompProps {}
@@ -16,10 +16,11 @@ export const MatchHistoryComp: React.FunctionComponent<MatchHistoryCompProps> = 
     const matchDetail: MatchDetail[] = useSelector(
         (state: reducerState) => state.search.matchDetails
     );
+    const itemData: itemData = useSelector((state: reducerState) => state.meta.itemData);
     const onClickUser = (summonerName: string) => {
         dispatch(SearchUser(summonerName, true));
     };
-
+    console.log(itemData);
     if (matches.length == 0) return <>잠시만 기다려주세요..</>;
     return (
         <S.matchHistoryContainer>
@@ -91,15 +92,31 @@ export const MatchHistoryComp: React.FunctionComponent<MatchHistoryCompProps> = 
                             <S.matchInfoItemList>
                                 {[...new Array(8)].map((id, itemIdx) => {
                                     let item = raw.items[itemIdx];
+                                    let tooltip = "";
                                     if (itemIdx === raw.items.length - 1 && itemIdx < 8)
                                         item = { imageUrl: "" };
                                     if (itemIdx === 3) item = raw.items[raw.items.length - 1];
+                                    if (item && item.imageUrl) {
+                                        let _splited = item.imageUrl.split("/");
+                                        let itemKey = Object.keys(itemData.data).find(
+                                            itemId =>
+                                                itemId ===
+                                                item.imageUrl
+                                                    .split("/")
+                                                    [_splited.length - 1].replace(".png", "")
+                                        );
+                                        if (itemKey)
+                                            tooltip = itemData.data[parseInt(itemKey)].plaintext;
+                                    }
                                     return (
                                         <S.matchInfoItemImg
                                             key={"matchInfoItem" + itemIdx}
                                             $result={gameResult}
                                         >
-                                            <img src={item ? item.imageUrl : ""} />
+                                            {tooltip.length > 0 && (
+                                                <span id="tooltipText">{tooltip}</span>
+                                            )}
+                                            {item && item.imageUrl && <img src={item.imageUrl} />}
                                         </S.matchInfoItemImg>
                                     );
                                 })}
@@ -112,7 +129,9 @@ export const MatchHistoryComp: React.FunctionComponent<MatchHistoryCompProps> = 
                             {detail &&
                                 detail.teams.map((team, teamIdx) => {
                                     return (
-                                        <S.matchInfoSummonerHalf>
+                                        <S.matchInfoSummonerHalf
+                                            key={"matchInfoSummonerHalf" + teamIdx}
+                                        >
                                             {team.players.map((player, playerIdx) => {
                                                 return (
                                                     <S.matchInfoSummoner

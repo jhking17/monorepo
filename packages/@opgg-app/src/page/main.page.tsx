@@ -1,11 +1,26 @@
-import React from "react";
-import { HeaderComp, UserInfoComp, RankInfoComp, MostInfoComp, MatchStasticsComp, MatchHistoryComp } from "../components";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+    HeaderComp,
+    UserInfoComp,
+    RankInfoComp,
+    MostInfoComp,
+    MatchStasticsComp,
+    MatchHistoryComp,
+} from "../components";
+import { GetItemJsonData } from "../common/action";
 import * as S from "../style/main.styled";
 import D from "../style/default.styled";
 
 interface MainPageProps {}
 
 const TestPage: React.FunctionComponent<MainPageProps> = (props: MainPageProps) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(GetItemJsonData());
+    }, []);
+    
     return (
         <>
             <HeaderComp />
@@ -13,7 +28,7 @@ const TestPage: React.FunctionComponent<MainPageProps> = (props: MainPageProps) 
                 <UserInfoComp />
                 <S.line />
                 <D.contentContainer>
-                    <D.innerContainer style={{display : "flex", gap : "10px"}}>
+                    <D.innerContainer style={{ display: "flex", gap: "10px" }}>
                         <S.leftBox>
                             <RankInfoComp />
                             <MostInfoComp />
