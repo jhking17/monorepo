@@ -146,7 +146,6 @@ export const matchInfoRecordPercentBox = styled.div`
 //
 export const matchInfoChampBox = styled.div`
     ${props => props.theme.flex.center};
-    justify-content : flex-start;
     flex: 4;
     height: 100%;
     flex-direction: column;
