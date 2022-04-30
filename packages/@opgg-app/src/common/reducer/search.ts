@@ -1,5 +1,84 @@
 import { AnyAction } from "redux";
-import { SEARCH_USER, DELETE_RECENT_USER, SEARCH_KEYWORD_USERS, GET_MOST_INFO } from "../action";
+import {
+    SEARCH_USER,
+    DELETE_RECENT_USER,
+    SEARCH_KEYWORD_USERS,
+    GET_MOST_INFO,
+    GET_MATCH_DETAIL,
+    GET_MATCHES,
+} from "../action";
+
+export interface MatchPosition {
+    games: number;
+    losses: number;
+    position: "TOP"|"JNG"|"MID"|"ADC"|"SUP";
+    positionName: string;
+    wins: number;
+}
+
+export interface MatchSummary {
+    assists: number;
+    deaths: number;
+    kills: number;
+    losses: number;
+    wins: number;
+}
+
+export interface MatchDetail {
+    gameId: number;
+    teams: {
+        teamId: number;
+        players: {
+            champion: { imageUrl: string; level: number };
+            summonerId: string;
+            summonerName: string;
+        }[];
+    }[];
+}
+
+export interface Match {
+    mmr: number;
+    champion: {
+        imageUrl: string;
+        level: number;
+    };
+    spells: {
+        imageUrl: string;
+    }[];
+    items: { imageUrl: string }[];
+    needRenew: boolean;
+    gameId: string;
+    createDate: number;
+    gameLength: number;
+    gameType: string;
+    summonerId: string;
+    summonerName: string;
+    tierRankShort: string;
+    stats: MatchStats;
+    mapInfo: string;
+    peak: string[];
+    isWin: boolean;
+}
+
+export interface MatchStats {
+    general: {
+        kill: number;
+        death: number;
+        assist: number;
+        kdaString: string;
+        cs: number;
+        csPerMin: number;
+        contributionForKillRate: string;
+        goldEarned: number;
+        totalDamageDealtToChampions: number;
+        largestMultiKillString: string;
+        opScoreBadge: string;
+    };
+    ward: {
+        sightWardsBought: number;
+        visionWardsBought: number;
+    };
+}
 
 export interface SummonerInfo {
     ladderRank: {
@@ -54,8 +133,8 @@ export interface Champion {
     name: string;
     rank: number;
     wins: number;
-    kda : number;
-    winRate : number;
+    kda: number;
+    winRate: number;
 }
 
 export interface RecentWinRate {
@@ -65,7 +144,7 @@ export interface RecentWinRate {
     imageUrl: string;
     wins: number;
     losses: number;
-    winRate : number;
+    winRate: number;
 }
 
 export type searchState = {
@@ -74,6 +153,11 @@ export type searchState = {
     searchKeyword?: SummonerInfo[];
     champions: Champion[];
     recentWinRates: RecentWinRate[];
+    matchDetails: MatchDetail[];
+    matches: Match[];
+    matchChampions: Champion[];
+    matchPositions : MatchPosition[];
+    matchSummary ?: MatchSummary;
 };
 
 const initialState: searchState = {
@@ -82,6 +166,11 @@ const initialState: searchState = {
     searchKeyword: [],
     champions: [],
     recentWinRates: [],
+    matchDetails: [],
+    matches: [],
+    matchChampions: [],
+    matchPositions : [],
+    matchSummary : undefined
 };
 
 export const search = (state: searchState = initialState, { type, payload }: AnyAction) => {
@@ -122,6 +211,37 @@ export const search = (state: searchState = initialState, { type, payload }: Any
                 ...state,
                 champions: payload.data.champions,
                 recentWinRates: payload.data.recentWinRate,
+            };
+        case GET_MATCHES:
+            if(payload.data){
+                return {
+                    ...state,
+                    matches: payload.data.games,
+                    matchPositions : payload.data.positions,
+                    matchSummary : payload.data.summary,
+                    matchChampions : payload.data.champions,
+                    matchDetails: [],
+                };
+            }
+            return {
+                ...state,
+                matches : [],
+                matchDetails: [],
+            }
+        case GET_MATCH_DETAIL:
+            if (payload.data) {
+                let matchIdx = state.matchDetails.findIndex(
+                    raw => raw.gameId === payload.data.gameId
+                );
+                if (matchIdx != -1) {
+                    state.matchDetails[matchIdx] = payload.data;
+                } else {
+                    state.matchDetails.push(payload.data);
+                }
+            }
+            return {
+                ...state,
+                matchDetails: [...state.matchDetails],
             };
         default:
             return state;

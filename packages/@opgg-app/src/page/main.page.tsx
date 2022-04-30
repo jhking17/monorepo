@@ -1,5 +1,5 @@
 import React from "react";
-import { HeaderComp, UserInfoComp, RankInfoComp, MostInfoComp, MatchStasticsComp } from "../components";
+import { HeaderComp, UserInfoComp, RankInfoComp, MostInfoComp, MatchStasticsComp, MatchHistoryComp } from "../components";
 import * as S from "../style/main.styled";
 import D from "../style/default.styled";
 
@@ -20,7 +20,7 @@ const TestPage: React.FunctionComponent<MainPageProps> = (props: MainPageProps) 
                         </S.leftBox>
                         <S.rightBox>
                             <MatchStasticsComp />
-                            <div>전체 솔로게임 자유랭크.....</div>
+                            <MatchHistoryComp />
                         </S.rightBox>
                     </D.innerContainer>
                 </D.contentContainer>

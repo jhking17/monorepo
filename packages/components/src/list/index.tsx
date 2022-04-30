@@ -16,7 +16,6 @@ export const ListComponent: React.FunctionComponent<ListCompTypes> = ({ items, l
     const itemCount = hasNextPage ? items.length + 1 : items.length;
 
     const Row = ({ index, style, data }: ListChildComponentProps) => {
-        console.log(index, style, data);
         return <div style={style}>{items[index]}</div>;
     };
 

@@ -51,7 +51,7 @@ export const FetchApiGet = async (url: any, params?: any, withoutErr: boolean = 
                 관리자에게 문의해주세요.
             `
             );
-        return { resultCode: 9999, errorMessage: error };
+        return { err: true, resultCode: 9999, errorMessage: error };
     }
 };
 
@@ -64,7 +64,8 @@ export const FetchApiPost = async (url: any, params?: any) => {
     try {
         const access_token = window.localStorage.getItem("access_token");
         const refresh_token = window.localStorage.getItem("refresh_token");
-        if (access_token == null && url.indexOf("login") == -1 && url.indexOf("signup") == -1) throw new Error("");
+        if (access_token == null && url.indexOf("login") == -1 && url.indexOf("signup") == -1)
+            throw new Error("");
         if (params == undefined) params = {};
         Object.assign(params, { access_token });
         Object.assign(params, { refresh_token });
@@ -94,7 +95,7 @@ export const FetchApiPost = async (url: any, params?: any) => {
             관리자에게 문의해주세요.
         `
         );
-        return { resultCode: 9999, errorMessage: error };
+        return { err: true, resultCode: 9999, errorMessage: error };
     }
 };
 
@@ -149,7 +150,7 @@ export const FetchApiPostWithFiles = async (url: any, files?: any, params?: any)
             관리자에게 문의해주세요.
         `
         );
-        return { resultCode: 9999, errorMessage: error };
+        return { err: true, resultCode: 9999, errorMessage: error };
     }
 };
 
@@ -184,7 +185,7 @@ export const FetchApiPut = async (url: any, params?: any) => {
             시스템 오류가 발생하였습니다.
             관리자에게 문의해주세요.
         `);
-        return { resultCode: 9999, errorMessage: error };
+        return { err: true, resultCode: 9999, errorMessage: error };
     }
 };
 
@@ -220,6 +221,6 @@ export const FetchApiDelete = async (url: any, params?: any) => {
             시스템 오류가 발생하였습니다.
             관리자에게 문의해주세요.
         `);
-        return { resultCode: 9999, errorMessage: error };
+        return { err: true, resultCode: 9999, errorMessage: error };
     }
 };

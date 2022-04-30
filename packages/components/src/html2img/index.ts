@@ -12,7 +12,6 @@ export const Html2CanvasComponent = async (props: FinalHtml2CanvasProps) => {
         if (el_list.length > 0) el = el_list[0] as HTMLElement;
     }
 
-    console.log(props.class_name, el);
     let img_list = [];
     if (el) {
         const canvas = await html2canvas(el, {
@@ -42,7 +41,6 @@ export const Html2CanvasComponent = async (props: FinalHtml2CanvasProps) => {
                 heightLeft -= pageHeight;
             }
         }
-        console.log(img_list);
         return img_list;
     }
     return null;

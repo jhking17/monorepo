@@ -5,7 +5,7 @@
  ******************************************************************************/
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SearchKeywordUsers, SearchUser, GetMostInfo } from "../../common/action";
+import { SearchKeywordUsers, SearchUser, GetMostInfo, GetMatches, GetMatchDetail } from "../../common/action";
 import { reducerState } from "../../common";
 import * as S from "./styled";
 import D from "../../style/default.styled";
@@ -17,15 +17,25 @@ interface HeaderCompProps {}
 var searchTimer: NodeJS.Timeout | undefined = undefined;
 export const HeaderComp: React.FunctionComponent<HeaderCompProps> = props => {
     const dispatch = useDispatch();
-    const searchSelector = useSelector((state: reducerState) => state.search);
+    const searched = useSelector((state: reducerState) => state.search.searched);
+    const matches = useSelector((state: reducerState)=> state.search.matches);
     const [isFocus, setIsFocus] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>("");
 
     useEffect(() => {
-        if(searchSelector.searched){
-            dispatch(GetMostInfo(searchSelector.searched.name));
+        if(searched){
+            dispatch(GetMostInfo(searched.name));
+            dispatch(GetMatches(searched.name));
         }
-    }, [searchSelector.searched]);
+    }, [searched]);
+
+    useEffect(() => {
+        if(matches.length > 0){
+            for(var match of matches){
+                dispatch(GetMatchDetail(searched.name, match.gameId));
+            }
+        }
+    }, [matches]);
 
     useEffect(() => {
         if (searchText.length > 0) {

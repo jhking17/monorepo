@@ -25,7 +25,7 @@ export const contentBox = styled.div`
 export const leftBox = styled.div`
     display: flex;
     flex-direction : column;
-    justify-content : center;
+    justify-content : flex-start;
     align-items : flex-start;
     flex: 4;
     max-width : 360px;
@@ -36,7 +36,8 @@ export const leftBox = styled.div`
 export const rightBox = styled.div`
     display: flex;
     flex-direction : column;
-    justify-content : center;
+    justify-content : flex-start;
     align-items : flex-start;
     flex: 7;
+    gap : 20px;
 `;

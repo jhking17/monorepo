@@ -2,8 +2,10 @@
  * last modify : jh.jeong
  ******************************************************************************/
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { reducerState } from "../../common";
+import { GetMatches } from "../../common/action";
+import { Match, MatchPosition, MatchSummary, Champion, SummonerInfo } from "../../common/reducer";
 import * as S from "./styled";
 import IconAdc from "../../image/icon-adc.svg";
 import IconMid from "../../image/icon-mid.svg";
@@ -15,20 +17,53 @@ interface MatchStasticsCompProps {}
 
 const BLANK_CHAMPION_ICON =
     "https://s-lol-web.op.gg/static/images/icon/common/icon-championimg.png";
+const POSITION_ICON_IMG = { ADC: IconAdc, MID: IconMid, TOP: IconTop, JNG: IconJng, SUP: IconSup };
+type MATCH_TYPE = "ALL" | "SOLO" | "FREE";
 export const MatchStasticsComp: React.FunctionComponent<MatchStasticsCompProps> = props => {
-    const searchSelector = useSelector((state: reducerState) => state.search);
+    const dispatch = useDispatch();
+    const matches: Match[] = useSelector((state: reducerState) => state.search.matches);
+    const matchPositions: MatchPosition[] = useSelector(
+        (state: reducerState) => state.search.matchPositions
+    );
+    const matchChampions: Champion[] = useSelector(
+        (state: reducerState) => state.search.matchChampions
+    );
+    const matchSummary: MatchSummary = useSelector(
+        (state: reducerState) => state.search.matchSummary
+    );
 
-    const [selectedTab, setSelectedTab] = useState<"ALL" | "SOLO" | "FREE">("SOLO");
-    const winRate = 78;
-    const winPoint = 6.45;
+    const summoner: SummonerInfo = useSelector((state: reducerState) => state.search.searched);
+    const [selectedTab, setSelectedTab] = useState<MATCH_TYPE>("SOLO");
+
+    const onClickTab = async (type: MATCH_TYPE) => {
+        await dispatch(GetMatches(summoner.name, type));
+        setSelectedTab(type);
+    };
+
+    if (matches.length == 0) return <>잠시만 기다려주세요..</>;
+    let total = matchSummary.wins + matchSummary.losses;
+    let losePer = matchSummary.losses / total;
+    let winPer = matchSummary.wins / total;
+    let kda = (matchSummary.kills + matchSummary.assists) / matchSummary.deaths;
     return (
         <S.matchStasticsContainer>
             <S.matchTypeSelectBox>
-                <S.matchTypeSelectBtn $active={selectedTab === "ALL"}>전체</S.matchTypeSelectBtn>
-                <S.matchTypeSelectBtn $active={selectedTab === "SOLO"}>
+                <S.matchTypeSelectBtn
+                    onClick={onClickTab.bind(this, "ALL")}
+                    $active={selectedTab === "ALL"}
+                >
+                    전체
+                </S.matchTypeSelectBtn>
+                <S.matchTypeSelectBtn
+                    onClick={onClickTab.bind(this, "SOLO")}
+                    $active={selectedTab === "SOLO"}
+                >
                     솔로게임
                 </S.matchTypeSelectBtn>
-                <S.matchTypeSelectBtn $active={selectedTab === "FREE"}>
+                <S.matchTypeSelectBtn
+                    onClick={onClickTab.bind(this, "FREE")}
+                    $active={selectedTab === "FREE"}
+                >
                     자유랭크
                 </S.matchTypeSelectBtn>
             </S.matchTypeSelectBox>
@@ -36,100 +71,101 @@ export const MatchStasticsComp: React.FunctionComponent<MatchStasticsCompProps> 
             <S.matchInfoContainer>
                 <S.matchInfoRecordBox>
                     <S.matchInfoRecordHalf>
-                        <S.matchInfoRecordText>20전 11승 9패</S.matchInfoRecordText>
-                        <S.matchInfoRecordDonut $loseRateDeg={Math.round((45 / 100) * 360)}>
+                        <S.matchInfoRecordText>
+                            {total}전 {matchSummary.wins}승 {matchSummary.losses}패
+                        </S.matchInfoRecordText>
+                        <S.matchInfoRecordDonut $loseRateDeg={Math.round(losePer * 360)}>
                             <S.matchInfoRecordDonutCenter>
-                                <span>40%</span>
+                                <span>{(winPer * 100).toFixed(0)}%</span>
                             </S.matchInfoRecordDonutCenter>
                         </S.matchInfoRecordDonut>
                     </S.matchInfoRecordHalf>
                     <S.matchInfoRecordHalf>
                         <S.matchInfoRecordKDABox>
-                            <span id="b">25.9</span>
+                            <span id="b">{matchSummary.kills}</span>
                             <span id="g">/</span>
-                            <span id="r">15.8</span>
+                            <span id="r">{matchSummary.assists}</span>
                             <span id="g">/</span>
-                            <span id="b">14.1</span>
+                            <span id="b">{matchSummary.deaths}</span>
                         </S.matchInfoRecordKDABox>
                         <S.matchInfoRecordPercentBox>
-                            <span id={winPoint > 6.0 ? "g" : "b"}>3.45:1</span>
-                            <span id={winRate > 60 ? "r" : "b"}>(58%)</span>
+                            <span id={kda > 6.0 ? "g" : "b"}>{kda.toFixed(2)}:1</span>
+                            <span id={kda > 6.0 ? "r" : "b"}>(58%)</span>
                         </S.matchInfoRecordPercentBox>
                     </S.matchInfoRecordHalf>
                 </S.matchInfoRecordBox>
                 <S.hLine />
                 <S.matchInfoChampBox>
-                    <S.matchInfoChampItem>
-                        <S.matchInfoChampItemIcon
-                            src={
-                                "https://opgg-static.akamaized.net/images/lol/champion/Xerath.png?image=q_auto,f_webp,w_auto&v=1651226741046"
-                            }
-                        />
-                        <S.matchInfoChampItemTextBox>
-                            <S.matchInfoChampItemName>룰루</S.matchInfoChampItemName>
-                            <S.matchInfoChampItemText>
-                                <span id="r">70%</span>
-                                <span id="b">(70승 3패)</span>
-                                <span id="s">|</span>
-                                <span id="y">13.01 평점</span>
-                            </S.matchInfoChampItemText>
-                        </S.matchInfoChampItemTextBox>
-                    </S.matchInfoChampItem>
-                    <S.matchInfoChampItem>
-                        <S.matchInfoChampItemIcon
-                            src={
-                                "https://opgg-static.akamaized.net/images/lol/champion/Xerath.png?image=q_auto,f_webp,w_auto&v=1651226741046"
-                            }
-                        />
-                        <S.matchInfoChampItemTextBox>
-                            <S.matchInfoChampItemName>룰루</S.matchInfoChampItemName>
-                            <S.matchInfoChampItemText>
-                                <span id="r">70%</span>
-                                <span id="b">(70승 3패)</span>
-                                <span id="s">|</span>
-                                <span id="y">13.01 평점</span>
-                            </S.matchInfoChampItemText>
-                        </S.matchInfoChampItemTextBox>
-                    </S.matchInfoChampItem>
-                    <S.matchInfoChampItem>
-                        <S.matchInfoChampItemIcon src={BLANK_CHAMPION_ICON} />
-                        <S.matchInfoChampItemTextBox>
-                            <S.matchInfoChampItemName>
-                                챔피언 정보가 없습니다.
-                            </S.matchInfoChampItemName>
-                            <S.matchInfoChampItemText></S.matchInfoChampItemText>
-                        </S.matchInfoChampItemTextBox>
-                    </S.matchInfoChampItem>
+                    {matchChampions.map((raw, idx) => {
+                        let winRate = Math.round((raw.wins / (raw.wins + raw.losses)) * 100);
+                        let kda = (raw.kills + raw.assists) / raw.deaths;
+                        return (
+                            <S.matchInfoChampItem key={"matchChampion" + idx}>
+                                <S.matchInfoChampItemIcon src={raw.imageUrl} />
+                                <S.matchInfoChampItemTextBox>
+                                    <S.matchInfoChampItemName>{raw.name}</S.matchInfoChampItemName>
+                                    <S.matchInfoChampItemText>
+                                        <span id={winRate > 60 ? "r" : "b"}>{winRate}%</span>
+                                        <span id="b">
+                                            ({raw.wins}승 {raw.losses}패)
+                                        </span>
+                                        <span id="s">|</span>
+                                        <span
+                                            id={
+                                                kda > 5
+                                                    ? "y"
+                                                    : kda > 4
+                                                    ? "blue"
+                                                    : kda > 3
+                                                    ? "g"
+                                                    : "b"
+                                            }
+                                        >
+                                            {kda.toFixed(2)} 평점
+                                        </span>
+                                    </S.matchInfoChampItemText>
+                                </S.matchInfoChampItemTextBox>
+                            </S.matchInfoChampItem>
+                        );
+                    })}
+                    {matchChampions.length < 3 &&
+                        [new Array(3 - matchChampions.length)].map((raw, idx) => {
+                            return (
+                                <S.matchInfoChampItem key={"matchChampionBlank" + idx}>
+                                    <S.matchInfoChampItemIcon src={BLANK_CHAMPION_ICON} />
+                                    <S.matchInfoChampItemTextBox>
+                                        <S.matchInfoChampItemName>
+                                            챔피언 정보가 없습니다.
+                                        </S.matchInfoChampItemName>
+                                        <S.matchInfoChampItemText></S.matchInfoChampItemText>
+                                    </S.matchInfoChampItemTextBox>
+                                </S.matchInfoChampItem>
+                            );
+                        })}
                 </S.matchInfoChampBox>
                 <S.hLine />
                 <S.matchInfoPositionBox>
                     <S.matchInfoPositionText>선호 포지션(랭크)</S.matchInfoPositionText>
-                    <S.matchInfoPositionDetail>
-                        <S.matchInfoPositionIcon src={IconTop} />
-                        <S.matchInfoPositionTextBox>
-                            <S.matchInfoPositionTextTop>탑</S.matchInfoPositionTextTop>
-                            <S.matchInfoPositionTextBtm>
-                                <span id="blue">70%</span>
-                                <span id="s">|</span>
-                                <span>
-                                    Win Rate <span id="grey">53</span>%
-                                </span>
-                            </S.matchInfoPositionTextBtm>
-                        </S.matchInfoPositionTextBox>
-                    </S.matchInfoPositionDetail>
-                    <S.matchInfoPositionDetail>
-                        <S.matchInfoPositionIcon src={IconJng} />
-                        <S.matchInfoPositionTextBox>
-                            <S.matchInfoPositionTextTop>정글</S.matchInfoPositionTextTop>
-                            <S.matchInfoPositionTextBtm>
-                                <span id="blue">70%</span>
-                                <span id="s">|</span>
-                                <span>
-                                    승률 <span id="grey">53</span>%
-                                </span>
-                            </S.matchInfoPositionTextBtm>
-                        </S.matchInfoPositionTextBox>
-                    </S.matchInfoPositionDetail>
+                    {matchPositions.map((raw, idx) => {
+                        const winRate = Math.round((raw.wins / raw.games) * 100) / 100;
+                        return (
+                            <S.matchInfoPositionDetail key={"matchPosition" + idx}>
+                                <S.matchInfoPositionIcon src={POSITION_ICON_IMG[raw.position]} />
+                                <S.matchInfoPositionTextBox>
+                                    <S.matchInfoPositionTextTop>
+                                        {raw.positionName}
+                                    </S.matchInfoPositionTextTop>
+                                    <S.matchInfoPositionTextBtm>
+                                        <span id="blue">{Math.round(winRate * 100)}%</span>
+                                        <span id="s">|</span>
+                                        <span>
+                                            승률 <span id="grey">{winRate}</span>%
+                                        </span>
+                                    </S.matchInfoPositionTextBtm>
+                                </S.matchInfoPositionTextBox>
+                            </S.matchInfoPositionDetail>
+                        );
+                    })}
                 </S.matchInfoPositionBox>
             </S.matchInfoContainer>
         </S.matchStasticsContainer>

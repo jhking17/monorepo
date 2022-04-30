@@ -1,11 +1,12 @@
 import { FetchApiPost, FetchApiGet, FetchApiDelete } from "../network";
 import { actions } from "common_module/lib/action/creator";
-import { Champion, RecentWinRate } from "../reducer";
+import { Champion, RecentWinRate, Match, MatchDetail } from "../reducer";
 export const SEARCH_USER = "SEARCH_USER";
 export const SearchUser = actions(
     SEARCH_USER,
     async (searchText: string, entered: boolean = false) => {
         let res = await FetchApiGet(`/api/summoner/${searchText}`);
+        if (res.err) return;
         return {
             payload: {
                 data: res.summoner != undefined ? res.summoner : null,
@@ -22,6 +23,8 @@ export const SearchKeywordUsers = actions(
     async (searchText: string, entered: boolean = false) => {
         // TODO :: keyword search api need.
         let res = await FetchApiGet(`/api/summoner/${searchText}`);
+        if (res.err) return;
+
         return {
             payload: {
                 data: res.summoner != undefined ? res.summoner : null,
@@ -40,6 +43,8 @@ export const DeleteRecentUser = actions(DELETE_RECENT_USER, (idx: number) => {
 export const GET_MOST_INFO = "GET_MOST_INFO";
 export const GetMostInfo = actions(GET_MOST_INFO, async (summonerName: string) => {
     let res = await FetchApiGet(`/api/summoner/${summonerName}/mostInfo`);
+    if (res.err) return;
+
     let champions: Champion[] = res.champions;
     let recentWinRates: RecentWinRate[] = res.recentWinRate;
     if (champions && champions.length > 0) {
@@ -71,3 +76,23 @@ export const GetMostInfo = actions(GET_MOST_INFO, async (summonerName: string) =
         },
     };
 });
+
+export const GET_MATCHES = "GET_MATCHES";
+export const GetMatches = actions(GET_MATCHES, async (summonerName: string, matchType : string) => {
+    // TODO :: matchType is not defined on API
+    let res = await FetchApiGet(`/api/summoner/${summonerName}/matches`);
+    if (res.err) return;
+
+    return { payload: { data: res } };
+});
+
+export const GET_MATCH_DETAIL = "GET_MATCH_DETAIL";
+export const GetMatchDetail = actions(
+    GET_MATCH_DETAIL,
+    async (summonerName: string, gameId: string) => {
+        let res = await FetchApiGet(`/api/summoner/${summonerName}/matchDetail/${gameId}`);
+        if (res.err) return;
+        let matchDetail: MatchDetail = res;
+        return { payload: { data: matchDetail } };
+    }
+);

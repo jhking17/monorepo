@@ -5,7 +5,6 @@ type StyledProps = {
 };
 
 export const rankInfoContainer = styled.div`
-    padding-top: 20px;
     ${props => props.theme.flex.center};
     flex-direction: column;
     width: 100%;

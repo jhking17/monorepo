@@ -48,7 +48,7 @@ export const matchTypeSelectBtn = styled.div`
         font-size: 13px;
     }
     &:first-child {
-        padding-left: 20px;
+        margin-left: 20px;
     }
 `;
 
@@ -145,18 +145,20 @@ export const matchInfoRecordPercentBox = styled.div`
 
 //
 export const matchInfoChampBox = styled.div`
+    ${props => props.theme.flex.center};
+    justify-content : flex-start;
     flex: 4;
     height: 100%;
-    ${props => props.theme.flex.center};
     flex-direction: column;
-    margin-left: 6px;
+    margin-left: 10px;
     gap: 6px;
     max-width: 270px;
 `;
 
 export const matchInfoChampItem = styled.div`
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 24%;
     gap: 6px;
@@ -195,6 +197,14 @@ export const matchInfoChampItemText = styled.div`
         font-weight: bold;
         color: #e19205;
     }
+    #blue {
+        font-weight: bold;
+        color: #1f8ecd;
+    }
+    #g {
+        font-weight: bold;
+        color: #2daf7f;
+    }
     #s {
         color: #cdd2d2;
     }
@@ -208,21 +218,21 @@ export const matchInfoPositionBox = styled.div`
     height: 100%;
     margin-left: 16px;
     max-width: 240px;
-    gap : 20px;
+    gap: 20px;
 `;
 
 export const matchInfoPositionText = styled.div`
-    font-size : 12px;
-    color : #666666;
-    width : 100%;
-    padding-left : 2px;
+    font-size: 12px;
+    color: #666666;
+    width: 100%;
+    padding-left: 2px;
 `;
 
 export const matchInfoPositionDetail = styled.div`
     ${props => props.theme.flex.center};
-    justify-content : flex-start;
-    width : 100%;
-    height : 24%;
+    justify-content: flex-start;
+    width: 100%;
+    height: 24%;
 `;
 
 export const matchInfoPositionIcon = styled.img`
@@ -232,33 +242,33 @@ export const matchInfoPositionIcon = styled.img`
 `;
 
 export const matchInfoPositionTextBox = styled.div`
-    display : flex;
-    justify-content : center;
-    align-items : flex-start;
-    flex-direction : column;
-    height : 100%;
-    gap : 3px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 100%;
+    gap: 3px;
 `;
 
 export const matchInfoPositionTextTop = styled.div`
-    color : #333333;
-    font-size : 14px;
+    color: #333333;
+    font-size: 14px;
 `;
 
 export const matchInfoPositionTextBtm = styled.div`
-    display : flex;
-    color : #333333;
-    font-size : 11px;
-    gap : 6px;
+    display: flex;
+    color: #333333;
+    font-size: 11px;
+    gap: 6px;
     #grey {
-        font-weight : bold;
-        color : #666666;
+        font-weight: bold;
+        color: #666666;
     }
     #blue {
-        font-weight : bold;
-        color : #1f8ecd;
+        font-weight: bold;
+        color: #1f8ecd;
     }
     #s {
-        color : #cdd2d2;
+        color: #cdd2d2;
     }
 `;
